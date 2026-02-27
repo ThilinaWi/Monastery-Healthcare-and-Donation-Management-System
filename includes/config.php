@@ -17,7 +17,7 @@ require_once __DIR__ . '/../config/database.php';
 
 // System Configuration
 define('SITE_NAME', 'Monastery Healthcare & Donation Management System');
-define('SITE_URL', 'http://localhost/monastery-healthcare-system'); // Update with your URL
+define('SITE_URL', 'http://localhost/Monastery-Healthcare-and-Donation-Management-System'); // Update with your URL
 define('ADMIN_EMAIL', 'admin@monastery.com');
 
 // Security Configuration

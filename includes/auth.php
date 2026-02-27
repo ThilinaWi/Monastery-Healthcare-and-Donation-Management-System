@@ -353,21 +353,6 @@ class Auth {
 }
 
 // Global authentication functions
-function requireLogin() {
-    if (!isset($_SESSION['user_id'])) {
-        header('Location: ' . SITE_URL . '/login.php');
-        exit;
-    }
-}
-
-function requireRole($role) {
-    requireLogin();
-    if ($_SESSION['role'] !== $role) {
-        header('Location: ' . SITE_URL . '/login.php?error=access_denied');
-        exit;
-    }
-}
-
 function redirectIfLoggedIn() {
     if (isset($_SESSION['user_id']) && isset($_SESSION['role'])) {
         $auth = new Auth();

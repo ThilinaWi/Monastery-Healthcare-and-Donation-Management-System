@@ -114,13 +114,25 @@ class Database {
      */
     public function update($table, $data, $where, $whereParams = []) {
         $fields = [];
-        foreach (array_keys($data) as $key) {
-            $fields[] = "{$key} = :{$key}";
+        $params = [];
+        $i = 0;
+        foreach ($data as $key => $value) {
+            $paramName = ":set_{$key}";
+            $fields[] = "{$key} = {$paramName}";
+            $params[$paramName] = $value;
         }
         $fields = implode(', ', $fields);
         
-        $sql = "UPDATE {$table} SET {$fields} WHERE {$where}";
-        $params = array_merge($data, $whereParams);
+        // Convert positional ? in where clause to named params
+        $j = 0;
+        $namedWhere = preg_replace_callback('/\?/', function($match) use (&$j, $whereParams, &$params) {
+            $paramName = ":where_{$j}";
+            $params[$paramName] = $whereParams[$j];
+            $j++;
+            return $paramName;
+        }, $where);
+        
+        $sql = "UPDATE {$table} SET {$fields} WHERE {$namedWhere}";
         
         return $this->query($sql, $params);
     }

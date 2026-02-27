@@ -112,10 +112,12 @@ CREATE TABLE donations (
     category_id INT NOT NULL,
     amount DECIMAL(15,2) NOT NULL,
     donation_method ENUM('cash', 'bank_transfer', 'cheque', 'online', 'in_kind') DEFAULT 'cash',
+    donation_type ENUM('monetary', 'goods', 'service') DEFAULT 'monetary',
     reference_number VARCHAR(100),
     notes TEXT,
     receipt_number VARCHAR(100) UNIQUE,
     is_anonymous BOOLEAN DEFAULT FALSE,
+    status ENUM('pending', 'approved', 'confirmed', 'rejected') DEFAULT 'pending',
     donation_date DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -231,7 +233,7 @@ CREATE TABLE user_sessions (
 
 -- Insert default admin user (password: admin123)
 INSERT INTO admins (username, email, password, full_name, phone) VALUES 
-('admin', 'admin@monastery.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'System Administrator', '+1234567890');
+('admin', 'admin@monastery.com', '$2y$10$VVaX3fTjFsfM81jkxSm0wumxvQNVLFr/xhdugmirxcS2GiW7Lusc2', 'System Administrator', '+1234567890');
 
 -- Insert default donation categories
 INSERT INTO donation_categories (category_name, description, target_amount, priority_level) VALUES 
